@@ -144,7 +144,7 @@ function wpping_plugin_settings(){
 	);
 	
 	add_settings_field(
-		'exclude_pages',
+		'bing_token',
 		esc_html__('Bing token', WPPING__SLUG),
 		'wpping_fill_bing_token',
 		'wpping_page', // Page
@@ -152,7 +152,24 @@ function wpping_plugin_settings(){
 	);
 }
 
+## fill option exclude page
+function wpping_fill_bing_token(){
+	?>
+<span><input size="80" type="text" name="wpping_add_option[bing_token]" value="" placeholder="<?php echo __('Bing token', 'true-lazy-analytics'); ?>"  />&#9;</span>
+<?php
+}
 
+## sanitize
+function wpping_sanitize_callback( $options ){ 
+	// очищаем
+	foreach( $options as $name => & $val ){
+		
+		if( $name == 'bing_token' )			
+		$val = htmlspecialchars($val, ENT_QUOTES);		
+
+	}
+	return $options;
+}
 
 
 add_action(
