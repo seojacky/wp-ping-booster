@@ -7,6 +7,8 @@
  * Author URI: https://t.me/big_jacky
  * Plugin URI: https://github.com/seojacky/wp-ping-booster
  * GitHub Plugin URI: https://github.com/seojacky/wp-ping-booster
+ * Text Domain: wp-ping-booster
+ * Domain Path: /languages
 */
 
 /* Exit if accessed directly */
@@ -62,7 +64,7 @@ add_action('admin_head', function(){
 	$submenu = add_submenu_page(
 	'wp-booster',
 	'Настройки плагина WP Ping Booster',
-	'WP Ping Booster',
+	'<span class="dashicons dashicons-upload"></span> WP Ping Booster',
 	'manage_options',
 	'wp-ping-booster',
 	'wpping_options_page_output'
@@ -72,6 +74,47 @@ add_action('admin_head', function(){
 
 function wpping_options_page_output(){
 	?>
+<style>
+.premium-icon::after {
+	display: inline-block;
+	position: relative;
+	content: 'PRO';
+	background: #ff5722;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 10px;
+	line-height: 1;
+	font-style: normal;
+	padding: 4px 6px;
+	margin-left: 4px;
+	vertical-align: top;
+	top: -10px;
+	left: -20px;
+	z-index: 11;
+}
+.soon-icon::after {
+    display: inline-block;
+    position: relative;
+    content: "<?php echo __('SOON', 'wp-ping-booster'); ?>";
+    background: #00bb06;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1;
+    font-style: normal;
+    padding: 4px 6px;
+    margin-left: 4px;
+    vertical-align: top;
+    top: -10px;
+    left: -20px;
+    z-index: 11;
+}
+</style>
+<script>
+function notAvailableMsg(node) {
+    return confirm("<?php echo __('This will be available in future versions.', 'wp-ping-booster'); ?>");
+}
+</script>	
 <div class="wrap">    
       <h1  style="display:inline;">WP Ping Booster</h1> 
    		<h2 class="nav-tab-wrapper"></h2>
@@ -145,11 +188,25 @@ function wpping_plugin_settings(){
 	
 	add_settings_field(
 		'bing_token',
-		esc_html__('Bing token', WPPING_SLUG),
+		esc_html__('Bing', WPPING_SLUG),
 		'wpping_fill_bing_token',
 		'wpping_page', // Page
 		'setting_section_id' // ID
 	);
+	add_settings_field(
+		'google_token',
+		esc_html__('Google', WPPING_SLUG),
+		'wpping_fill_google_token',
+		'wpping_page', // Page
+		'setting_section_id' // ID
+	);
+	add_settings_field(
+		'yandex_token',
+		esc_html__('Yandex', WPPING_SLUG),
+		'wpping_fill_yandex_token',
+		'wpping_page', // Page
+		'setting_section_id' // ID
+	);	
 }
 
 ## fill option exclude page
@@ -158,9 +215,19 @@ function wpping_fill_bing_token(){
 	$val = $val ? $val['bing_token'] : null;
 	?>
 <span><input size="80" type="text" name="wpping_add_option[bing_token]" value="<?php echo esc_attr( $val ) ?>" placeholder="<?php echo __('Bing', 'wp-ping-booster'); ?>"  />&#9;
-<div><a href="https://www.bing.com/webmasters/" target="_blank">Bing Webmaster</a> <a href="https://d.radikal.ru/d07/2104/74/63b09bd3450e.jpg" target="_blank" style="color: red;">How to get Bing Search API key?</a></div>
+<div><a href="https://www.bing.com/webmasters/" target="_blank">Bing Webmaster</a> <a href="https://a.radikal.ru/a10/2104/c7/5cbd4cc73b5b.jpg" target="_blank" style="color: red;">How to get Bing Search API key?</a></div>
 </span>
 <?php
+}
+function wpping_fill_google_token(){
+	?>
+<span class="soon-icon" onclick="return notAvailableMsg(this);"><input size="80" type="text"  name="wpping_add_option[google_token]" value="" disabled="disabled" />&#9;</span>
+	<?php
+}
+function wpping_fill_yandex_token(){
+	?>
+<span class="soon-icon" onclick="return notAvailableMsg(this);"><input size="80" type="text"  name="wpping_add_option[yandex_token]" value="" disabled="disabled" />&#9;</span>
+	<?php
 }
 
 ## sanitize
