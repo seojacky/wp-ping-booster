@@ -26,9 +26,9 @@ add_action(
         return;
       }
 
-      ping_with_yandex( $post );
+      //ping_with_yandex( $post );
       ping_with_bing( $post );
-      ping_with_google( $post );
+      //ping_with_google( $post );
     },
     10,
     3
