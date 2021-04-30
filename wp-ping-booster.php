@@ -2,7 +2,7 @@
 /*
  * Plugin name: WP Ping Booster
  * Description: When you publish new content or update old content on your WordPress website, the plugin sends a crawl request to Bing using the Bing Indexing API.
- * Version: 0.1
+ * Version: 0.3
  * Author: seojacky 
  * Author URI: https://t.me/big_jacky
  * Plugin URI: https://github.com/seojacky/wp-ping-booster
@@ -138,14 +138,14 @@ function wpping_plugin_settings(){
 	);
 	add_settings_section(
 		'setting_section_id', // ID
-		esc_html__('Main Settings', TLAP_SLUG), // Title
+		esc_html__('Settings', WPPING_SLUG), // Title
 		'', // Callback
 		'wpping_page' // Page
 	);
 	
 	add_settings_field(
 		'exclude_pages',
-		esc_html__('Bing', TLAP_SLUG),
+		esc_html__('Bing token', WPPING__SLUG),
 		'wpping_fill_bing_token',
 		'wpping_page', // Page
 		'setting_section_id' // ID
