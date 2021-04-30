@@ -9,6 +9,9 @@
  * GitHub Plugin URI: https://github.com/seojacky/wp-ping-booster
 */
 
+/* Exit if accessed directly */
+if ( ! defined( 'ABSPATH' ) ) {	return;}
+
 add_action(
     'transition_post_status',
   /**
