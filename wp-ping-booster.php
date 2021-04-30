@@ -2,7 +2,7 @@
 /*
  * Plugin name: WP Ping Booster
  * Description: When you publish new content or update old content on your WordPress website, the plugin sends a crawl request to Bing using the Bing Indexing API.
- * Version: 0.1
+ * Version: 0.3
  * Author: seojacky 
  * Author URI: https://t.me/big_jacky
  * Plugin URI: https://github.com/seojacky/wp-ping-booster
@@ -73,7 +73,7 @@ add_action('admin_head', function(){
 function wpping_options_page_output(){
 	?>
 <div class="wrap">    
-      <h1  style="display:inline;">WP Ping Booster</h1></span> 
+      <h1  style="display:inline;">WP Ping Booster</h1> 
    		<h2 class="nav-tab-wrapper"></h2>
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-2">
@@ -132,27 +132,48 @@ function wpping_options_page_output(){
 add_action('admin_init', 'wpping_plugin_settings');
 function wpping_plugin_settings(){
 		register_setting( 
-		'wpping_add_option', // Option group
+		'wpping_option_group', // Option group
 		'wpping_add_option', // Option name
 		'wpping_sanitize_callback' // Sanitize
 	);
 	add_settings_section(
 		'setting_section_id', // ID
-		esc_html__('Main Settings', TLAP_SLUG), // Title
+		esc_html__('Settings', WPPING_SLUG), // Title
 		'', // Callback
 		'wpping_page' // Page
 	);
 	
 	add_settings_field(
-		'exclude_pages',
-		esc_html__('Bing', TLAP_SLUG),
+		'bing_token',
+		esc_html__('Bing token', WPPING_SLUG),
 		'wpping_fill_bing_token',
 		'wpping_page', // Page
 		'setting_section_id' // ID
 	);
 }
 
+## fill option exclude page
+function wpping_fill_bing_token(){
+	$val = get_option('wpping_add_option');
+	$val = $val ? $val['bing_token'] : null;
+	?>
+<span><input size="80" type="text" name="wpping_add_option[bing_token]" value="<?php echo esc_attr( $val ) ?>" placeholder="<?php echo __('Bing', 'wp-ping-booster'); ?>"  />&#9;
+<div><a href="https://www.bing.com/webmasters/" target="_blank">Bing Webmaster</a> <a href="https://d.radikal.ru/d07/2104/74/63b09bd3450e.jpg" target="_blank" style="color: red;">How to get Bing Search API key?</a></div>
+</span>
+<?php
+}
 
+## sanitize
+function wpping_sanitize_callback( $options ){ 
+	// очищаем
+	foreach( $options as $name => & $val ){
+		
+		if( $name == 'bing_token' )			
+		$val = htmlspecialchars($val, ENT_QUOTES);		
+
+	}
+	return $options;
+}
 
 
 add_action(
@@ -181,7 +202,13 @@ add_action(
 );
 
 function wpping_ping_with_bing( WP_Post $post ) {
-  $token   = '83fd61b8e6cf46bea226fa4b0d4eab2d';
+  //$token   = '83fd61b8e6cf46bea226fa4b0d4eab2d';
+  
+  	$all_options = get_option( 'wpping_add_option' );
+	$token = $all_options['bing_token'];
+	
+	//if(isset( $token ) && !empty( $token )) { 
+  
 
   $url = 'https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=%s';
   $url = sprintf( $url, $token );
