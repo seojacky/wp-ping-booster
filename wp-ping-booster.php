@@ -27,14 +27,14 @@ add_action(
       }
 
       //ping_with_yandex( $post );
-      ping_with_bing( $post );
+      wpping_ping_with_bing( $post );
       //ping_with_google( $post );
     },
     10,
     3
 );
 
-function ping_with_bing( WP_Post $post ) {
+function wpping_ping_with_bing( WP_Post $post ) {
   $token   = '83fd61b8e6cf46bea226fa4b0d4eab2d';
 
   $url = 'https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=%s';
