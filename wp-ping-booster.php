@@ -35,7 +35,7 @@ add_action(
 );
 
 function ping_with_bing( WP_Post $post ) {
-  $token   = BING_WEBMASTER_TOKEN;
+  $token   = '83fd61b8e6cf46bea226fa4b0d4eab2d';
 
   $url = 'https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey=%s';
   $url = sprintf( $url, $token );
